@@ -179,7 +179,7 @@ class Noble:
         new_im = Image.open("disability.jpg")
         img.thumbnail((98,98))
         new_im.paste(img,(318,216))
-        #new_im.save("disabled.jpg")
+        new_im.save("disabled.jpg")
         await ctx.message.delete()
         await ctx.send(file=discord.File('disabled.jpg'))
 
