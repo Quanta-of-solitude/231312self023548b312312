@@ -127,22 +127,22 @@ class Utility:
         emb.color = await ctx.get_dominant_color(ctx.author.avatar_url)
         file = io.BytesIO()
         if status == "online":
-            await self.bot.change_presence(status=discord.Status.online, game=discord.Game(name=message), afk=True)
+            await self.bot.change_presence(status=discord.Status.online, activity=discord.Game(name=message), afk=True)
             color = discord.Color(value=0x43b581).to_rgb()
         elif status == "idle":
-            await self.bot.change_presence(status=discord.Status.idle, game=discord.Game(name=message), afk=True)
+            await self.bot.change_presence(status=discord.Status.idle, activity=discord.Game(name=message), afk=True)
             color = discord.Color(value=0xfaa61a).to_rgb()
         elif status == "dnd":
-            await self.bot.change_presence(status=discord.Status.dnd, game=discord.Game(name=message), afk=True)
+            await self.bot.change_presence(status=discord.Status.dnd, activity=discord.Game(name=message), afk=True)
             color = discord.Color(value=0xf04747).to_rgb()
         elif status == "invis" or status == "invisible":
-            await self.bot.change_presence(status=discord.Status.invisible, game=discord.Game(name=message), afk=True)
+            await self.bot.change_presence(status=discord.Status.invisible, activity=discord.Game(name=message), afk=True)
             color = discord.Color(value=0x747f8d).to_rgb()
         elif status == "stream":
-            await self.bot.change_presence(status=discord.Status.online, game=discord.Game(name=message,type=1,url=f'https://www.twitch.tv/{message}'), afk=True)
+            await self.bot.change_presence(status=discord.Status.online, activity=discord.Game(name=message,type=1,url=f'https://www.twitch.tv/{message}'), afk=True)
             color = discord.Color(value=0x593695).to_rgb()
         elif status == "clear":
-            await self.bot.change_presence(game=None, afk=True)
+            await self.bot.change_presence(activity=None, afk=True)
             emb.description = "Presence cleared."
             return await ctx.send(embed=emb)
         else:
