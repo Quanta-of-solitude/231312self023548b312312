@@ -120,33 +120,39 @@ class Utility:
                     await ctx.send(page)
 
     @commands.command(name='presence')
-    async def _presence(self, ctx, status, *, message=None):
-        '''Change your Discord status! (Stream, Online, Idle, DND, Invisible, or clear it)'''
+    async def _presence(self, ctx, status, *, message:str=None):
+        '''Change your Discord status! (Stream, Online, Idle, DND, Invisible, clear it, watching or listening)'''
         status = status.lower()
         emb = discord.Embed(title="Presence")
         emb.color = await ctx.get_dominant_color(ctx.author.avatar_url)
         file = io.BytesIO()
         if status == "online":
-            await self.bot.change_presence(status=discord.Status.online, activity=discord.Game(name=message), afk=True)
+            await self.bot.change_presence(status=discord.Status.online, activity=discord.Game(name=message), afk=Fale)
             color = discord.Color(value=0x43b581).to_rgb()
         elif status == "idle":
-            await self.bot.change_presence(status=discord.Status.idle, activity=discord.Game(name=message), afk=True)
+            await self.bot.change_presence(status=discord.Status.idle, activity=discord.Game(name=message), afk=False)
             color = discord.Color(value=0xfaa61a).to_rgb()
         elif status == "dnd":
-            await self.bot.change_presence(status=discord.Status.dnd, activity=discord.Game(name=message), afk=True)
+            await self.bot.change_presence(status=discord.Status.dnd, activity=discord.Game(name=message), afk=False)
             color = discord.Color(value=0xf04747).to_rgb()
         elif status == "invis" or status == "invisible":
-            await self.bot.change_presence(status=discord.Status.invisible, activity=discord.Game(name=message), afk=True)
+            await self.bot.change_presence(status=discord.Status.invisible, activity=discord.Game(name=message), afk=False)
             color = discord.Color(value=0x747f8d).to_rgb()
         elif status == "stream":
-            await self.bot.change_presence(status=discord.Status.online, activity=discord.Game(name=message,type=1,url=f'https://www.twitch.tv/{message}'), afk=True)
+            await self.bot.change_presence(status=discord.Status.online, activity=discord.Streaming(name=f"{message}", url=f'www.twitch.tv/{message}'), afk = False)
+            color = discord.Color(value=0x593695).to_rgb()
+        elif status == "watching":
+            await self.bot.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.watching, name=f"{message}"), afk = False)
+            color = discord.Color(value=0x593695).to_rgb()
+        elif status == "listening":
+            await self.bot.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.listening, name=f"{message}"), afk = Flase)
             color = discord.Color(value=0x593695).to_rgb()
         elif status == "clear":
             await self.bot.change_presence(activity=None, afk=True)
             emb.description = "Presence cleared."
             return await ctx.send(embed=emb)
         else:
-            emb.description = "Please enter either `online`, `idle`, `dnd`, `invisible`, or `clear`."
+            emb.description = "Please enter either `online`, `idle`, `dnd`, `invisible`, `clear`, `watching` or `listening`"
             return await ctx.send(embed=emb)
 
         Image.new('RGB', (500, 500), color).save(file, format='PNG')
